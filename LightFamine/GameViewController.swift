@@ -9,16 +9,16 @@ import SceneKit
 import QuartzCore
 
 class GameViewController: NSViewController {
+        
+    var scene: SCNScene!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // create a new scene
-        let scene = SCNScene(named: "art.scnassets/scene2.scn")!
                 
         // retrieve the SCNView
         let scnView = self.view as! SCNView
         
+        scene = GameScene(named: "art.scnassets/scene2.scn")!
         // set the scene to the view
         scnView.scene = scene
         
@@ -36,6 +36,13 @@ class GameViewController: NSViewController {
         var gestureRecognizers = scnView.gestureRecognizers
         gestureRecognizers.insert(clickGesture, at: 0)
         scnView.gestureRecognizers = gestureRecognizers
+        
+        setupNodes()
+    }
+    
+    func setupNodes() {
+        let playerNode = scene.rootNode.childNode(withName: "player", recursively: true)!
+        print(playerNode)
     }
     
     @objc
