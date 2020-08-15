@@ -13,7 +13,7 @@
 		ADDB1BBC24E8420E004B79D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADDB1BBA24E8420E004B79D1 /* Main.storyboard */; };
 		ADDB1BC824E8420F004B79D1 /* LightFamineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDB1BC724E8420F004B79D1 /* LightFamineTests.swift */; };
 		ADDB1BD324E8420F004B79D1 /* LightFamineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDB1BD224E8420F004B79D1 /* LightFamineUITests.swift */; };
-		ADDB1BE124E8453E004B79D1 /* SCNCatalogue.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = ADDB1BE024E8453E004B79D1 /* SCNCatalogue.scnassets */; };
+		ADDB1BE724E84A94004B79D1 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = ADDB1BE624E84A94004B79D1 /* art.scnassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +47,7 @@
 		ADDB1BCE24E8420F004B79D1 /* LightFamineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightFamineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADDB1BD224E8420F004B79D1 /* LightFamineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightFamineUITests.swift; sourceTree = "<group>"; };
 		ADDB1BD424E8420F004B79D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ADDB1BE024E8453E004B79D1 /* SCNCatalogue.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = SCNCatalogue.scnassets; sourceTree = "<group>"; };
+		ADDB1BE624E84A94004B79D1 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,8 +100,8 @@
 			children = (
 				ADDB1BB224E8420D004B79D1 /* AppDelegate.swift */,
 				ADDB1BB424E8420D004B79D1 /* GameViewController.swift */,
-				ADDB1BE024E8453E004B79D1 /* SCNCatalogue.scnassets */,
 				ADDB1BB824E8420E004B79D1 /* Assets.xcassets */,
+				ADDB1BE624E84A94004B79D1 /* art.scnassets */,
 				ADDB1BBA24E8420E004B79D1 /* Main.storyboard */,
 				ADDB1BBD24E8420E004B79D1 /* Info.plist */,
 				ADDB1BBE24E8420E004B79D1 /* LightFamine.entitlements */,
@@ -230,8 +230,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADDB1BE124E8453E004B79D1 /* SCNCatalogue.scnassets in Resources */,
 				ADDB1BBC24E8420E004B79D1 /* Main.storyboard in Resources */,
+				ADDB1BE724E84A94004B79D1 /* art.scnassets in Resources */,
 				ADDB1BB924E8420E004B79D1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

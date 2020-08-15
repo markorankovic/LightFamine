@@ -14,7 +14,7 @@ class GameViewController: NSViewController {
         super.viewDidLoad()
         
         // create a new scene
-        let scene = SCNScene(named: "SCNCatalogue.scnassets/scene.scn")!
+        let scene = SCNScene(named: "art.scnassets/scene.scn")!
                 
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -23,16 +23,16 @@ class GameViewController: NSViewController {
         scnView.scene = scene
         
         // allows the user to manipulate the camera
-        //scnView.allowsCameraControl = true
+        scnView.allowsCameraControl = true
         
         // show statistics such as fps and timing information
         scnView.showsStatistics = true
-        
-        // configure the view
-        scnView.backgroundColor = NSColor.black
-        
+                
         // Add a click gesture recognizer
-        let clickGesture = NSClickGestureRecognizer(target: self, action: #selector(handleClick(_:)))
+        let clickGesture = NSClickGestureRecognizer(
+            target: self,
+            action: #selector(handleClick(_:))
+        )
         var gestureRecognizers = scnView.gestureRecognizers
         gestureRecognizers.insert(clickGesture, at: 0)
         scnView.gestureRecognizers = gestureRecognizers
