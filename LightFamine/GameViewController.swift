@@ -14,7 +14,7 @@ class GameViewController: NSViewController {
         super.viewDidLoad()
         
         // create a new scene
-        let scene = SCNScene(named: "art.scnassets/scene.scn")!
+        let scene = SCNScene(named: "art.scnassets/scene2.scn")!
                 
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -27,7 +27,7 @@ class GameViewController: NSViewController {
         
         // show statistics such as fps and timing information
         scnView.showsStatistics = true
-                
+                        
         // Add a click gesture recognizer
         let clickGesture = NSClickGestureRecognizer(
             target: self,
