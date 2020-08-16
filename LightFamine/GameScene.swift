@@ -57,6 +57,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     var xSpeed: CGFloat = 0
     
     public func keyDown(with event: NSEvent) {
+        print(1)
         if event.keyCode == 17 {
             zSpeed = -speed
         }
