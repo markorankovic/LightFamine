@@ -10,7 +10,8 @@ import QuartzCore
 
 class GameViewController: NSViewController {
         
-    var scene: SCNScene!
+    let scene = GameScene(named: "art.scnassets/scene4.scn")!
+    var player: SCNNode?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +19,6 @@ class GameViewController: NSViewController {
         // retrieve the SCNView
         let scnView = self.view as! SCNView
         
-        scene = GameScene(named: "art.scnassets/scene.scn")!
         // set the scene to the view
         scnView.scene = scene
         
@@ -27,13 +27,25 @@ class GameViewController: NSViewController {
         
         // show statistics such as fps and timing information
         scnView.showsStatistics = true
-                                
-        setupNodes()
+        scnView.debugOptions = SCNDebugOptions.showPhysicsShapes
+        
+        player = scene.rootNode.childNode(withName: "player", recursively: true)
     }
     
-    func setupNodes() {
-        let playerNode = scene.rootNode.childNode(withName: "player", recursively: true)!
-        print(playerNode)
+    override func keyDown(with event: NSEvent) {
+        print(event.keyCode)
+        var speed: CGFloat = 0
+        if event.keyCode == 12 {
+            speed = -1
+        }
+        if event.keyCode == 14 {
+            speed = 1
+        }
+        player?.runAction(.moveBy(x: 0, y: 0, z: speed, duration: 0.1))
     }
     
+    override func keyUp(with event: NSEvent) {
+        print(1)
+    }
+        
 }
