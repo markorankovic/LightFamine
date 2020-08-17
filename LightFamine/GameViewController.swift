@@ -11,7 +11,9 @@ import QuartzCore
 class GameViewController: NSViewController, SCNSceneRendererDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
-        ((view as? SCNView)?.scene as? GameScene)?.update(time)
+        DispatchQueue.main.async {
+            ((self.view as? SCNView)?.scene as? GameScene)?.update(time)
+        }
     }
     
     override func viewDidLoad() {
@@ -20,14 +22,17 @@ class GameViewController: NSViewController, SCNSceneRendererDelegate {
         // retrieve the SCNView
         let scnView = self.view as! SCNView
         
-        // set the scene to the view
-        scnView.scene = GameScene(named: "art.scnassets/scene4.scn")!
+        let scene = GameScene(named: "art.scnassets/scene7.scn")!
         
+        // set the scene to the view
+        scnView.scene = scene
+                
         // allows the user to manipulate the camera
         scnView.allowsCameraControl = true
         
         // show statistics such as fps and timing information
         //scnView.showsStatistics = true
+        
         //scnView.debugOptions = SCNDebugOptions.showPhysicsShapes
         
         scnView.delegate = self

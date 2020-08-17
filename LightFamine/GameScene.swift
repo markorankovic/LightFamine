@@ -10,12 +10,27 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         rootNode.childNode(withName: "exit", recursively: true)
     }
     
+    var surface: SCNNode? {
+        rootNode.childNode(withName: "surface", recursively: true)
+    }
+    
     var spotLights: [SCNNode] {
         rootNode.childNodes.filter { $0.name == "spot" }
     }
     
+    var start: SCNNode? {
+        rootNode.childNode(withName: "start", recursively: true)
+    }
+    
+    var playerOnSurface: Bool {
+        guard let player = player, let surface = surface else {
+            return false
+        }
+        return physicsWorld.contactTestBetween(player.physicsBody!, surface.physicsBody!, options: nil).count > 0
+    }
+    
     var spotLightsPlayerFallsUnder: [SCNNode] {
-        spotLights.filter { spot in
+        return spotLights.filter { spot in
             guard let player = player else {
                 return false
             }
@@ -37,59 +52,52 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         return physicsWorld.contactTestBetween(player.physicsBody!, exit.physicsBody!, options: nil).count > 0
     }
     
-    var playerInTheDark: Bool {
+    var playerOutOfBounds: Bool {
+        guard playerOnSurface else {
+            return false
+        }
         return spotLightsPlayerFallsUnder.count == 0
     }
     
     func update(_ time: TimeInterval) {
-        player?.runAction(.moveBy(x: xSpeed, y: 0, z: zSpeed, duration: 0.1))
-        if playerInTheDark {
+        run()
+        if playerOutOfBounds {
             print("You lost!")
-            player?.position = .init(x: 0.13777577877044678, y: 0.7823623418807983, z: 3.761770725250244)
+            player?.position = start?.position ?? .init()
         } else if playerHitExit {
             print("You won!")
-            player?.position = .init(x: 0.13777577877044678, y: 0.7823623418807983, z: 3.761770725250244)
+            player?.position = start?.position ?? .init()
         }
     }
     
-    let speed: CGFloat = 0.03
+    let speed: CGFloat = 0.05
     var zSpeed: CGFloat = 0
     var xSpeed: CGFloat = 0
+    var ySpeed: CGFloat = 0
+    
+    func run() {
+        player?.runAction(.moveBy(x: xSpeed, y: ySpeed, z: zSpeed, duration: 0.1))
+    }
     
     public func keyDown(with event: NSEvent) {
-        print(1)
-        if event.keyCode == 17 {
-            zSpeed = -speed
-        }
-        if event.keyCode == 5 {
-            zSpeed = speed
-        }
-        if event.keyCode == 3 {
-            xSpeed = -speed
-        }
-        if event.keyCode == 4 {
-            xSpeed = speed
-        }
-        if event.keyCode == 49 {
-            player?.position = .init(x: 0, y: 5, z: 0)
-            player?.rotation = .init()
-            player?.physicsBody?.angularVelocity = .init()
-            player?.physicsBody?.velocity = .init()
+        switch event.keyCode {
+        case 17: zSpeed = -speed
+        case 5: zSpeed = speed
+        case 3: xSpeed = -speed
+        case 4: xSpeed = speed
+        case 49: ySpeed = 0.5
+        default: break
         }
     }
     
     public func keyUp(with event: NSEvent) {
-        if event.keyCode == 17 {
-            zSpeed = 0
-        }
-        if event.keyCode == 5 {
-            zSpeed = 0
-        }
-        if event.keyCode == 3 {
-            xSpeed = 0
-        }
-        if event.keyCode == 4 {
-            xSpeed = 0
+        switch event.keyCode {
+        case 17: zSpeed = 0
+        case 5: zSpeed = 0
+        case 3: xSpeed = 0
+        case 4: xSpeed = 0
+        case 49: ySpeed = 0
+        default: break
         }
     }
         
