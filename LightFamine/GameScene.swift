@@ -2,6 +2,8 @@ import SceneKit
 
 public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
+    weak var viewController: GameViewController?
+    
     var player: SCNNode? {
         rootNode.childNode(withName: "player", recursively: true)
     }
@@ -60,13 +62,20 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     func update(_ time: TimeInterval) {
+        if let v = player?.physicsBody?.velocity {
+            let contacts = physicsWorld.contactTest(with: player!.physicsBody!, options: nil)
+            if round(v.y) == 0 && contacts.count > 0 {
+                alreadyJumped = false
+            } else {
+                alreadyJumped = true
+            }
+        }
         run()
         if playerOutOfBounds {
             print("You lost!")
             player?.position = start?.position ?? .init()
         } else if playerHitExit {
-            print("You won!")
-            player?.position = start?.position ?? .init()
+            viewController?.nextLevel()
         }
     }
     
@@ -74,9 +83,18 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     var zSpeed: CGFloat = 0
     var xSpeed: CGFloat = 0
     var ySpeed: CGFloat = 0
-    
+        
     func run() {
-        player?.runAction(.moveBy(x: xSpeed, y: ySpeed, z: zSpeed, duration: 0.1))
+        player?.runAction(.moveBy(x: xSpeed, y: 0, z: zSpeed, duration: 0.1))
+        //player?.physicsBody?.applyForce(.init(xSpeed, ySpeed, zSpeed), asImpulse: true)
+    }
+    
+    var alreadyJumped = false
+    
+    func jump() {
+        if !alreadyJumped {
+            player?.runAction(.moveBy(x: 0, y: 1, z: 0, duration: 0.1))
+        }
     }
     
     public func keyDown(with event: NSEvent) {
@@ -85,7 +103,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         case 5: zSpeed = speed
         case 3: xSpeed = -speed
         case 4: xSpeed = speed
-        case 49: ySpeed = 0.5
+        case 49: jump()
         default: break
         }
     }
@@ -96,7 +114,6 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         case 5: zSpeed = 0
         case 3: xSpeed = 0
         case 4: xSpeed = 0
-        case 49: ySpeed = 0
         default: break
         }
     }

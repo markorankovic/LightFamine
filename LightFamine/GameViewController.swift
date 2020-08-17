@@ -9,33 +9,44 @@ import SceneKit
 import QuartzCore
 
 class GameViewController: NSViewController, SCNSceneRendererDelegate {
+        
+    private var _sceneView: SCNView!
+    private var _level: GameScene!
+
+    var sceneView: SCNView! {
+        _sceneView
+    }
     
     func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
-        DispatchQueue.main.async {
-            ((self.view as? SCNView)?.scene as? GameScene)?.update(time)
-        }
+        _level.update(time)
     }
+    
+    func nextLevel() {
+        levelIndex = levelIndex % 4
+        levelIndex += 1
+                            
+        _level = GameScene(named: "art.scnassets/Levels/level\(levelIndex).scn")!
+        
+        _level.viewController = self
+        
+        _sceneView.scene = _level
+    }
+    
+    public var levelIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        _sceneView = SCNView()
+        view = _sceneView
+        
+        _sceneView.allowsCameraControl = true
                 
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
-        let scene = GameScene(named: "art.scnassets/scene7.scn")!
-        
-        // set the scene to the view
-        scnView.scene = scene
+        _sceneView.delegate = self
+
+        print(levelIndex)
                 
-        // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
-        
-        // show statistics such as fps and timing information
-        //scnView.showsStatistics = true
-        
-        //scnView.debugOptions = SCNDebugOptions.showPhysicsShapes
-        
-        scnView.delegate = self
+        nextLevel()
     }
         
     override func keyDown(with event: NSEvent) {
