@@ -7,53 +7,62 @@
 
 import SceneKit
 
-class GameViewController: NSViewController, SCNSceneRendererDelegate {
-        
-    private var _sceneView: SCNView!
+public class GameViewController: NSViewController, SCNSceneRendererDelegate {
+
+    private var _sceneView: SCNView {
+        view as! SCNView
+    }
     private var _level: GameScene!
 
-    var sceneView: SCNView! {
-        _sceneView
-    }
-    
-    func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
+    public func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
         _level.update(time)
     }
-    
+
+    public override func loadView() {
+        view = SCNView()
+    }
+
     func nextLevel() {
         levelIndex = levelIndex % 5
         levelIndex += 1
-                            
+
         _level = GameScene(named: "art.scnassets/Levels/level\(levelIndex).scn")!
-        
+
         _level.viewController = self
-        
+
         _sceneView.scene = _level
     }
-    
-    public var levelIndex = 0
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+
+    func enterLevel(level: Int) {
+        _level = GameScene(named: "art.scnassets/Levels/level\(level).scn")!
         
-        _sceneView = SCNView()
-        view = _sceneView
+        _level.viewController = self
+
+        _sceneView.scene = _level
         
-        _sceneView.allowsCameraControl = true
-                
-        _sceneView.delegate = self
-        
-        nextLevel()
+        levelIndex = level
     }
-        
-    override func keyDown(with event: NSEvent) {
+
+    public var levelIndex = 0
+
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view = _sceneView
+
+        _sceneView.allowsCameraControl = true
+
+        _sceneView.delegate = self
+    }
+
+    public override func keyDown(with event: NSEvent) {
         let scnView = self.view as! SCNView
         (scnView.scene as? GameScene)?.keyDown(with: event)
     }
-    
-    override func keyUp(with event: NSEvent) {
+
+    public override func keyUp(with event: NSEvent) {
         let scnView = self.view as! SCNView
         (scnView.scene as? GameScene)?.keyUp(with: event)
     }
-    
+
 }
