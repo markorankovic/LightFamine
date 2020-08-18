@@ -6,7 +6,6 @@
 //
 
 import SceneKit
-import QuartzCore
 
 class GameViewController: NSViewController, SCNSceneRendererDelegate {
         
