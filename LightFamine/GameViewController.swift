@@ -22,7 +22,7 @@ class GameViewController: NSViewController, SCNSceneRendererDelegate {
     }
     
     func nextLevel() {
-        levelIndex = levelIndex % 4
+        levelIndex = levelIndex % 5
         levelIndex += 1
                             
         _level = GameScene(named: "art.scnassets/Levels/level\(levelIndex).scn")!
@@ -43,9 +43,7 @@ class GameViewController: NSViewController, SCNSceneRendererDelegate {
         _sceneView.allowsCameraControl = true
                 
         _sceneView.delegate = self
-
-        print(levelIndex)
-                
+        
         nextLevel()
     }
         
