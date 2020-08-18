@@ -1,4 +1,17 @@
 # LightFamine
-Game where you avoid the dark areas
 
-This project is on a 3D game in which the player must avoid touching all dark surfaces, there should be light surfaces players can move through in order to reach the goal of the level. Currently it is uncertain exactly as to what this game will entail, so anybody reading at some point this, all I can say for now is stay tuned and hopefully I will be able to introduce features into this game that will be worth people's time!
+## About
+This macOS game is an ongoing project which features a moveable cylinder which the player moves toward a goal of the level. Between the player and the goal is a dark area which takes the player back to the start when entering. The player should hence stay in the light unless on top of objects to avoid touching the dark floor surface.
+
+## Controls
+F, G, H, T      ->     Move left, down, right and up
+
+Space           ->     Jump
+
+LMB and drag    ->     Rotate the camera
+
+Pinch           ->     Zoom in and vice versa to zoom out
+
+Esc             ->     Return to main menu from in-game | Exit application from main menu
+
+### There currently are only five levels, but given the circumstances many more are expected to come, so stay tuned!
