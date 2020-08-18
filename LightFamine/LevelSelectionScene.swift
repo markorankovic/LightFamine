@@ -16,4 +16,10 @@ public class LevelSelectionScene: SKScene {
         }
     }
     
+    public override func keyUp(with event: NSEvent) {
+        if event.keyCode == 53 {
+            exit(1)
+        }
+    }
+    
 }

@@ -21,6 +21,14 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     public override func loadView() {
         view = SCNView()
     }
+    
+    func exitToMainMenu() {
+        if let p = parent as? MainViewController {
+            p.addChild(p.mainMenuViewController)
+            p.view = p.mainMenuViewController.view
+            removeFromParent()
+        }
+    }
 
     func nextLevel() {
         levelIndex = levelIndex % 5

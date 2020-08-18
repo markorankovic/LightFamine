@@ -114,6 +114,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         case 5: zSpeed = 0
         case 3: xSpeed = 0
         case 4: xSpeed = 0
+        case 53: viewController?.exitToMainMenu()
         default: break
         }
     }

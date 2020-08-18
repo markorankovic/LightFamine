@@ -3,10 +3,12 @@ import SpriteKit
 public class MainMenuViewController: NSViewController {
     public func enterLevel(level: Int) {
         print("Enter level: \(level)")
-        let vController = (parent as? MainViewController)
-        vController!.view = vController!.gameViewController.view
-        vController!.gameViewController.enterLevel(level: level)
-        removeFromParent()
+        if let p = parent as? MainViewController {
+            p.addChild(p.gameViewController)
+            p.view = p.gameViewController.view
+            p.gameViewController.enterLevel(level: level)
+            removeFromParent()
+        }
     }
     
     public override func loadView() {
@@ -18,3 +20,4 @@ public class MainMenuViewController: NSViewController {
         (v.scene as? LevelSelectionScene)?.viewController = self
     }
 }
+
