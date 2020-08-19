@@ -31,9 +31,8 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     }
 
     func nextLevel() {
-        levelIndex = levelIndex % 5
+        levelIndex = levelIndex % LevelSelectionScene.LEVEL_COUNT
         levelIndex += 1
-
         _level = GameScene(named: "art.scnassets/Levels/level\(levelIndex).scn")!
 
         _level.viewController = self
