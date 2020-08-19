@@ -98,11 +98,12 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     public func keyDown(with event: NSEvent) {
+        print(event.keyCode)
         switch event.keyCode {
-        case 17: zSpeed = -speed
-        case 5: zSpeed = speed
-        case 3: xSpeed = -speed
-        case 4: xSpeed = speed
+        case 13: zSpeed = -speed
+        case 1: zSpeed = speed
+        case 0: xSpeed = -speed
+        case 2: xSpeed = speed
         case 49: jump()
         default: break
         }
@@ -110,10 +111,10 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
     public func keyUp(with event: NSEvent) {
         switch event.keyCode {
-        case 17: zSpeed = 0
-        case 5: zSpeed = 0
-        case 3: xSpeed = 0
-        case 4: xSpeed = 0
+        case 13: zSpeed = 0
+        case 1: zSpeed = 0
+        case 0: xSpeed = 0
+        case 2: xSpeed = 0
         case 53: viewController?.exitToMainMenu()
         default: break
         }

@@ -17,14 +17,18 @@ public class MainViewController: NSViewController {
     }
     
     public override func keyDown(with event: NSEvent) {
-        for child in children {
-            child.keyDown(with: event)
-        }
+        mainMenuViewController.keyDown(with: event)
     }
     
     public override func keyUp(with event: NSEvent) {
         for child in children {
             child.keyUp(with: event)
+        }
+    }
+        
+    public override func mouseMoved(with event: NSEvent) {
+        for child in children {
+            child.mouseMoved(with: event)
         }
     }
         

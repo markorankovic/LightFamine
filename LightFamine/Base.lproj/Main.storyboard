@@ -705,7 +705,7 @@
         <scene sceneID="stN-pv-Yuq">
             <objects>
                 <viewController id="6AG-07-wLm" customClass="MainViewController" customModule="LightFamine" customModuleProvider="target" sceneMemberID="viewController">
-                    <containerView key="view" id="x7S-RV-XXO">
+                    <containerView key="view" id="x7S-RV-XXO" customClass="GameView" customModule="LightFamine" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </containerView>
