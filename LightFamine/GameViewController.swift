@@ -9,8 +9,8 @@ import SceneKit
 
 public class GameViewController: NSViewController, SCNSceneRendererDelegate {
 
-    private var _sceneView: GameView {
-        view as! GameView
+    private var _sceneView: SCNView {
+        view as! SCNView
     }
     
     private var _level: GameScene!
@@ -36,24 +36,16 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     }
 
     public override func loadView() {
-        view = GameView()
+        view = SCNView(frame: .init(x: 0, y: 0, width: 800, height: 600))
     }
-        
-    func exitToMainMenu() {
-        if let p = parent as? MainViewController {
-            p.addChild(p.mainMenuViewController)
-            p.view = p.mainMenuViewController.view
-            removeFromParent()
-        }
-    }
-
+    
     func presentScene(scene: GameScene) {
         _sceneView.scene = _level
         setUpCam(level: _level)
     }
     
     func nextLevel() {
-        levelIndex = levelIndex % LevelSelectionScene.LEVEL_COUNT
+        levelIndex = levelIndex % 6
         levelIndex += 1
         _level = GameScene(named: "art.scnassets/Levels/level\(levelIndex).scn")!
 
@@ -80,6 +72,8 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
         view = _sceneView
 
         _sceneView.delegate = self
+        
+        nextLevel()
     }
 
     public override func keyDown(with event: NSEvent) {
