@@ -98,7 +98,6 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     public func keyDown(with event: NSEvent) {
-        print(event.keyCode)
         switch event.keyCode {
         case 13: zSpeed = -speed
         case 1: zSpeed = speed

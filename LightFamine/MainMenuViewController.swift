@@ -6,7 +6,7 @@ public class MainMenuViewController: NSViewController {
         print("Enter level: \(level)")
         if let p = parent as? MainViewController {
             p.addChild(p.gameViewController)
-            p.view = p.gameViewController.view
+            p.view = p.gameViewController.view as! GameView
             p.gameViewController.enterLevel(level: level)
             removeFromParent()
         }

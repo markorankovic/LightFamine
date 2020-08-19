@@ -17,17 +17,18 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     
     func setUpCam(level: GameScene) {
         let cam = level.rootNode.childNode(withName: "camera", recursively: true)!
+        cam.constraints = []
         let player = level.player!
         let constraint = SCNTransformConstraint.positionConstraint(inWorldSpace: true) { node, position in
-            var constrainedPosition = position
+            //let constrainedPosition = position
             if cam.position.z - player.position.z > 5 { cam.position.z = player.position.z + 5 }
             if cam.position.z - player.position.z < 2 { cam.position.z = player.position.z + 2 }
             
             if cam.position.x - player.position.x > 0.5 { cam.position.x = player.position.x }
             if cam.position.x - player.position.x < 0.5 { cam.position.x = player.position.x }
-            return constrainedPosition
+            return position
         }
-        cam.constraints?.append(constraint)
+        cam.constraints!.append(constraint)
     }
     
     public func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
@@ -37,7 +38,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     public override func loadView() {
         view = GameView()
     }
-    
+        
     func exitToMainMenu() {
         if let p = parent as? MainViewController {
             p.addChild(p.mainMenuViewController)
@@ -46,6 +47,11 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
         }
     }
 
+    func presentScene(scene: GameScene) {
+        _sceneView.scene = _level
+        setUpCam(level: _level)
+    }
+    
     func nextLevel() {
         levelIndex = levelIndex % LevelSelectionScene.LEVEL_COUNT
         levelIndex += 1
@@ -53,7 +59,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
 
         _level.viewController = self
 
-        _sceneView.scene = _level
+        presentScene(scene: _level)
     }
 
     func enterLevel(level: Int) {
@@ -61,11 +67,9 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
         
         _level.viewController = self
 
-        _sceneView.scene = _level
+        presentScene(scene: _level)
         
         levelIndex = level
-        
-        setUpCam(level: _level)
     }
 
     public var levelIndex = 0
@@ -74,8 +78,6 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
         super.viewDidLoad()
 
         view = _sceneView
-
-        //_sceneView.allowsCameraControl = true
 
         _sceneView.delegate = self
     }
@@ -91,7 +93,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     }
     
     public override func mouseMoved(with event: NSEvent) {
-        print(1)
+        
     }
 
 }

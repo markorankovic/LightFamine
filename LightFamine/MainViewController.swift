@@ -13,7 +13,11 @@ public class MainViewController: NSViewController {
     
     public override func loadView() {
         addViewControllers()
-        view = mainMenuViewController.view
+        //view = mainMenuViewController.view
+    }
+    
+    public override func mouseMoved(with event: NSEvent) {
+        //print(1)
     }
     
     public override func keyDown(with event: NSEvent) {
@@ -21,15 +25,7 @@ public class MainViewController: NSViewController {
     }
     
     public override func keyUp(with event: NSEvent) {
-        for child in children {
-            child.keyUp(with: event)
-        }
+        mainMenuViewController.keyUp(with: event)
     }
-        
-    public override func mouseMoved(with event: NSEvent) {
-        for child in children {
-            child.mouseMoved(with: event)
-        }
-    }
-        
+    
 }
