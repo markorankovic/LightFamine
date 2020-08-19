@@ -2,6 +2,8 @@ import SpriteKit
 
 public class LevelSelectionScene: SKScene {
     
+    public static var LEVEL_COUNT = 6
+    
     var viewController: MainMenuViewController?
         
     func enterLevel(level: Int) {
@@ -10,7 +12,7 @@ public class LevelSelectionScene: SKScene {
     
     public override func mouseUp(with event: NSEvent) {
         let loc = event.location(in: self)
-        let n = nodes(at: loc).first
+        let n = nodes(at: loc).filter{ $0.name == "level" }.first
         if let lvlNumber = n?.childNode(withName: "number") as? SKLabelNode {
             enterLevel(level: Int(lvlNumber.text!)!)
         }
