@@ -13,7 +13,7 @@ public class MainMenuViewController: NSViewController {
     }
     
     public override func loadView() {
-        view = SKView()
+        view = SKView(frame: .init(x: 0, y: 0, width: 800, height: 600))
     }
     
     public override func viewDidLoad() {

@@ -3,8 +3,12 @@ import SceneKit
 
 public class GameView: SCNView {
         
+    public override func viewDidMoveToWindow() {
+        window?.acceptsMouseMovedEvents = true
+    }
+    
     public override func mouseMoved(with event: NSEvent) {
-        print(5)
+        (window?.contentViewController as? MainViewController)?.gameViewController.mouseMoved(with: event)
     }
     
     public override func keyDown(with event: NSEvent) {

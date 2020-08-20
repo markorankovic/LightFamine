@@ -8,6 +8,10 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         rootNode.childNode(withName: "player", recursively: true)
     }
     
+    var cam: SCNNode? {
+        rootNode.childNode(withName: "camera", recursively: true)
+    }
+    
     var exit: SCNNode? {
         rootNode.childNode(withName: "exit", recursively: true)
     }
