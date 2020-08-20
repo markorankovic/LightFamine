@@ -7,6 +7,14 @@
 
 import SceneKit
 
+extension SCNNode {
+    
+    func distanceTo2D(node: SCNNode) -> CGFloat {
+        hypot(node.position.x - self.position.x, node.position.z - self.position.z)
+    }
+    
+}
+
 public class GameViewController: NSViewController, SCNSceneRendererDelegate {
 
     private var _sceneView: GameView {
@@ -17,6 +25,31 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     
     public func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
         _level.update(time)
+    }
+    
+    func setUpCameraConstraints() {
+        let cam = _level.cam!
+        let player = _level.player!
+        cam.constraints = []
+        let lookAt = SCNLookAtConstraint(target: player)
+        let follow = SCNTransformConstraint.positionConstraint(inWorldSpace: true) { cam, p in
+            let maxAllowedDist: CGFloat = 4
+            let dist = cam.distanceTo2D(node: player)
+            if dist > maxAllowedDist {
+                var constrainedPosition = p
+                let currentXDist = player.position.x - cam.position.x
+                let currentZDist = player.position.z - cam.position.z
+                let newXDist = maxAllowedDist * (currentXDist / dist)
+                let newZDist = maxAllowedDist * (currentZDist / dist)
+                constrainedPosition.x = player.position.x - newXDist
+                constrainedPosition.z = player.position.z - newZDist
+                return constrainedPosition
+            }
+            return p
+        }
+        lookAt.isGimbalLockEnabled = true
+        cam.constraints?.append(lookAt)
+        cam.constraints?.append(follow)
     }
 
     public override func loadView() {
@@ -33,6 +66,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
 
     func presentScene(scene: GameScene) {
         _sceneView.scene = _level
+        setUpCameraConstraints()
     }
     
     func nextLevel() {
