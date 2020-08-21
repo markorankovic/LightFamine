@@ -105,7 +105,6 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         case .right: a = CGFloat.pi/2
         default: a = 0
         }
-        print(a)
         player?.runAction(.move(by: .init(speed * cos(angleBetween + a), 0, speed * sin(angleBetween + a)), duration: 0.1))
         //player?.physicsBody?.applyForce(.init(xSpeed, ySpeed, zSpeed), asImpulse: true)
     }

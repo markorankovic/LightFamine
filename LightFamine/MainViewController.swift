@@ -15,7 +15,7 @@ public class MainViewController: NSViewController {
         addViewControllers()
         view = mainMenuViewController.view
     }
-        
+    
     public override func keyDown(with event: NSEvent) {
         mainMenuViewController.keyDown(with: event)
     }

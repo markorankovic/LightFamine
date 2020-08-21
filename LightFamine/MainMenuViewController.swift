@@ -22,5 +22,9 @@ public class MainMenuViewController: NSViewController {
         (v.scene as? LevelSelectionScene)?.viewController = self
     }
     
+    var unhide = true
+    
+    public override func mouseMoved(with event: NSEvent) {
+    }
+    
 }
-
