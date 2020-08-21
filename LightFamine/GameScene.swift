@@ -2,6 +2,13 @@ import SceneKit
 
 public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
+    enum Direction {
+        case left
+        case right
+        case up
+        case down
+    }
+    
     weak var viewController: GameViewController?
     
     var player: SCNNode? {
@@ -66,7 +73,6 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     func update(_ time: TimeInterval) {
-        print(player!.rotation)
         if let v = player?.physicsBody?.velocity {
             let contacts = physicsWorld.contactTest(with: player!.physicsBody!, options: nil)
             if round(v.y) == 0 && contacts.count > 0 {
@@ -91,7 +97,16 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         
     func run() {
         //player?.runAction(.moveBy(x: xSpeed, y: 0, z: zSpeed, duration: 0.1))
-        player?.runAction(.move(by: .init(speed * cos(player!.rotation.w), 0, speed * sin(player!.rotation.w)), duration: 0.1))
+        let angleBetween = atan2(player!.position.z - cam!.position.z, player!.position.x - cam!.position.x)
+        var a: CGFloat = 0
+        switch dir {
+        case .down: a = 4 * CGFloat.pi/2
+        case .left: a = CGFloat.pi/2
+        case .right: a = CGFloat.pi/2
+        default: a = 0
+        }
+        print(a)
+        player?.runAction(.move(by: .init(speed * cos(angleBetween + a), 0, speed * sin(angleBetween + a)), duration: 0.1))
         //player?.physicsBody?.applyForce(.init(xSpeed, ySpeed, zSpeed), asImpulse: true)
     }
     
@@ -103,12 +118,14 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         }
     }
     
+    var dir: Direction = .up
+    
     public func keyDown(with event: NSEvent) {
         switch event.keyCode {
-        case 13: speed = 0.05
-        case 1: speed = -0.05
-        case 0: player?.runAction(.rotateBy(x: 0, y: 0.1, z: 0, duration: 0.1))
-        case 2: player?.runAction(.rotateBy(x: 0, y: -0.1, z: 0, duration: 0.1))
+        case 13: speed = 0.1; dir = .up
+        case 1: speed = -0.1; dir = .down
+        case 0: speed = -0.1; dir = .left
+        case 2: speed = 0.1; dir = .right
         case 49: jump()
         default: break
         }
@@ -118,11 +135,23 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         switch event.keyCode {
         case 13: speed = 0
         case 1: speed = 0
-        //case 0: speed = 0
-        //case 2: speed = 0
+        case 0: speed = 0
+        case 2: speed = 0
         case 53: viewController?.exitToMainMenu()
         default: break
         }
+    }
+    
+    public func mouseMoved(with event: NSEvent) {
+        cam?.constraints?.removeAll { $0 is SCNLookAtConstraint }
+        cam?.rotate(by: .init(0, 0.01 * -event.deltaX, 0, 1), aroundTarget: player!.position)
+        let lookAt = SCNLookAtConstraint(target: player)
+        lookAt.isGimbalLockEnabled = true
+        cam?.constraints?.append(lookAt)
+    }
+    
+    public func mouseExited(with event: NSEvent) {
+        print(5)
     }
         
 }

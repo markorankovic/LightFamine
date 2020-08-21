@@ -31,7 +31,6 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
         let cam = _level.cam!
         let player = _level.player!
         cam.constraints = []
-        let lookAt = SCNLookAtConstraint(target: player)
         let follow = SCNTransformConstraint.positionConstraint(inWorldSpace: true) { cam, p in
             let maxAllowedDist: CGFloat = 4
             let dist = cam.distanceTo2D(node: player)
@@ -43,12 +42,11 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
                 let newZDist = maxAllowedDist * (currentZDist / dist)
                 constrainedPosition.x = player.position.x - newXDist
                 constrainedPosition.z = player.position.z - newZDist
+                constrainedPosition.y = player.position.y + 1.5
                 return constrainedPosition
             }
             return p
         }
-        lookAt.isGimbalLockEnabled = true
-        cam.constraints?.append(lookAt)
         cam.constraints?.append(follow)
     }
 
@@ -61,12 +59,14 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
             p.addChild(p.mainMenuViewController)
             p.view = p.mainMenuViewController.view
             removeFromParent()
+            NSCursor.unhide()
         }
     }
 
     func presentScene(scene: GameScene) {
         _sceneView.scene = _level
         setUpCameraConstraints()
+        NSCursor.hide()
     }
     
     func nextLevel() {
@@ -103,7 +103,14 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     }
     
     public override func mouseMoved(with event: NSEvent) {
+        let scnView = self.view as! SCNView
+        (scnView.scene as? GameScene)?.mouseMoved(with: event)
+    }
     
+    public override func mouseExited(with event: NSEvent) {
+        let scnView = self.view as! SCNView
+        (scnView.scene as? GameScene)?.mouseExited(with: event)
+
     }
 
 }
