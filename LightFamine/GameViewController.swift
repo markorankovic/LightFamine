@@ -53,7 +53,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     public override func loadView() {
         view = GameView(frame: .init(x: 0, y: 0, width: 800, height: 600))
     }
-        
+    
     func exitToMainMenu() {
         if let p = parent as? MainViewController {
             p.addChild(p.mainMenuViewController)
@@ -64,6 +64,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     }
 
     func presentScene(scene: GameScene) {
+        view.window!.acceptsMouseMovedEvents = true
         _sceneView.scene = _level
         setUpCameraConstraints()
         NSCursor.hide()
