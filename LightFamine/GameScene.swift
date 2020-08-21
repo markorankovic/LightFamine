@@ -66,6 +66,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     func update(_ time: TimeInterval) {
+        print(player!.rotation)
         if let v = player?.physicsBody?.velocity {
             let contacts = physicsWorld.contactTest(with: player!.physicsBody!, options: nil)
             if round(v.y) == 0 && contacts.count > 0 {
@@ -83,13 +84,14 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         }
     }
     
-    let speed: CGFloat = 0.05
+    var speed: CGFloat = 0
     var zSpeed: CGFloat = 0
     var xSpeed: CGFloat = 0
     var ySpeed: CGFloat = 0
         
     func run() {
-        player?.runAction(.moveBy(x: xSpeed, y: 0, z: zSpeed, duration: 0.1))
+        //player?.runAction(.moveBy(x: xSpeed, y: 0, z: zSpeed, duration: 0.1))
+        player?.runAction(.move(by: .init(speed * cos(player!.rotation.w), 0, speed * sin(player!.rotation.w)), duration: 0.1))
         //player?.physicsBody?.applyForce(.init(xSpeed, ySpeed, zSpeed), asImpulse: true)
     }
     
@@ -103,10 +105,10 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
     public func keyDown(with event: NSEvent) {
         switch event.keyCode {
-        case 13: zSpeed = -speed
-        case 1: zSpeed = speed
-        case 0: xSpeed = -speed
-        case 2: xSpeed = speed
+        case 13: speed = 0.05
+        case 1: speed = -0.05
+        case 0: player?.runAction(.rotateBy(x: 0, y: 0.1, z: 0, duration: 0.1))
+        case 2: player?.runAction(.rotateBy(x: 0, y: -0.1, z: 0, duration: 0.1))
         case 49: jump()
         default: break
         }
@@ -114,10 +116,10 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
     public func keyUp(with event: NSEvent) {
         switch event.keyCode {
-        case 13: zSpeed = 0
-        case 1: zSpeed = 0
-        case 0: xSpeed = 0
-        case 2: xSpeed = 0
+        case 13: speed = 0
+        case 1: speed = 0
+        //case 0: speed = 0
+        //case 2: speed = 0
         case 53: viewController?.exitToMainMenu()
         default: break
         }
