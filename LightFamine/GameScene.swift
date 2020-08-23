@@ -72,6 +72,18 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         return spotLightsPlayerFallsUnder.count == 0
     }
     
+    func flipTheDarkAndLight() {
+        if !flipped {
+            flipped = true
+        }
+    }
+    
+    var flipped = false
+    
+    func returnToStart() {
+        player?.position = start?.position ?? .init()
+    }
+    
     func update(_ time: TimeInterval) {
         if let v = player?.physicsBody?.velocity {
             let contacts = physicsWorld.contactTest(with: player!.physicsBody!, options: nil)
@@ -82,11 +94,13 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
             }
         }
         run()
-        if playerOutOfBounds {
+        if (playerOutOfBounds && !flipped) || (!playerOutOfBounds && flipped) {
             print("You lost!")
-            player?.position = start?.position ?? .init()
-        } else if playerHitExit {
-            viewController?.nextLevel()
+            returnToStart()
+        } else {
+            if playerHitExit {
+                viewController?.nextLevel()
+            }
         }
     }
     
@@ -98,6 +112,9 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     func run() {
         //player?.runAction(.moveBy(x: xSpeed, y: 0, z: zSpeed, duration: 0.1))
         let angleBetween = atan2(player!.position.z - cam!.position.z, player!.position.x - cam!.position.x)
+        //let dist = hypot(player!.position.z - cam!.position.z, player!.position.x - cam!.position.x)
+        //let sinRatio = (player!.position.z - cam!.position.z) / dist
+        //let cosRatio = (player!.position.x - cam!.position.x) / dist
         var a: CGFloat = 0
         switch dir {
         case .down: a = 4 * CGFloat.pi/2
@@ -119,7 +136,15 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
     var dir: Direction = .up
     
+    struct Key {
+        let key: String
+        var holding: Bool
+    }
+    
+    let keys = []
+    
     public func keyDown(with event: NSEvent) {
+        print(event.keyCode)
         switch event.keyCode {
         case 13: speed = 0.1; dir = .up
         case 1: speed = -0.1; dir = .down
