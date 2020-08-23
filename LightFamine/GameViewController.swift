@@ -51,6 +51,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
     }
 
     public override func loadView() {
+        //view = GameView()
         view = GameView(frame: .init(x: 0, y: 0, width: 800, height: 600))
     }
     
