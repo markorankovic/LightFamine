@@ -68,7 +68,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
         view.window!.acceptsMouseMovedEvents = true
         _sceneView.scene = _level
         _level.returnToStart()
-        _level.flipTheDarkAndLight()
+        //_level.flipTheDarkAndLight()
         setUpCameraConstraints()
         NSCursor.hide()
     }

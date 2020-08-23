@@ -104,7 +104,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         }
     }
     
-    var speed: CGFloat = 0
+    var speed: CGFloat = 0.1
     var zSpeed: CGFloat = 0
     var xSpeed: CGFloat = 0
     var ySpeed: CGFloat = 0
@@ -116,13 +116,15 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         //let sinRatio = (player!.position.z - cam!.position.z) / dist
         //let cosRatio = (player!.position.x - cam!.position.x) / dist
         var a: CGFloat = 0
-        switch dir {
-        case .down: a = 4 * CGFloat.pi/2
-        case .left: a = CGFloat.pi/2
-        case .right: a = CGFloat.pi/2
-        default: a = 0
+        for key in movingKeys.filter({ $0.holding }) {
+            switch key.direction {
+            case .down: a = 4 * CGFloat.pi/2; speed = -0.1
+            case .left: a = CGFloat.pi/2; speed = -0.1
+            case .right: a = CGFloat.pi/2; speed = 0.1
+            default: a = 0; speed = 0.1
+            }
+            player?.runAction(.move(by: .init(speed * cos(angleBetween + a), 0, speed * sin(angleBetween + a)), duration: 0.1))
         }
-        player?.runAction(.move(by: .init(speed * cos(angleBetween + a), 0, speed * sin(angleBetween + a)), duration: 0.1))
         //player?.physicsBody?.applyForce(.init(xSpeed, ySpeed, zSpeed), asImpulse: true)
     }
     
@@ -136,20 +138,33 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
     var dir: Direction = .up
     
-    struct Key {
+    class MovingKey {
         let key: String
-        var holding: Bool
+        var holding: Bool = false
+        let direction: Direction
+        
+        func press() {
+            self.holding = true
+        }
+        
+        func release() {
+            self.holding = false
+        }
+        
+        init(key: String, direction: Direction) {
+            self.key = key
+            self.direction = direction
+        }
     }
     
-    let keys = []
+    let movingKeys = [MovingKey(key: "W", direction: Direction.up), MovingKey(key: "A", direction: Direction.left), MovingKey(key: "S", direction: Direction.down), MovingKey(key: "D", direction: Direction.right)]
     
     public func keyDown(with event: NSEvent) {
-        print(event.keyCode)
         switch event.keyCode {
-        case 13: speed = 0.1; dir = .up
-        case 1: speed = -0.1; dir = .down
-        case 0: speed = -0.1; dir = .left
-        case 2: speed = 0.1; dir = .right
+        case 13: movingKeys.filter { $0.key == "W" }.first?.press()
+        case 1: movingKeys.filter { $0.key == "S" }.first?.press()
+        case 0: movingKeys.filter { $0.key == "A" }.first?.press()
+        case 2: movingKeys.filter { $0.key == "D" }.first?.press()
         case 49: jump()
         default: break
         }
@@ -157,10 +172,10 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
     public func keyUp(with event: NSEvent) {
         switch event.keyCode {
-        case 13: speed = 0
-        case 1: speed = 0
-        case 0: speed = 0
-        case 2: speed = 0
+        case 13: movingKeys.filter { $0.key == "W" }.first?.release()
+        case 1: movingKeys.filter { $0.key == "S" }.first?.release()
+        case 0: movingKeys.filter { $0.key == "A" }.first?.release()
+        case 2: movingKeys.filter { $0.key == "D" }.first?.release()
         case 53: viewController?.exitToMainMenu()
         default: break
         }
@@ -174,8 +189,6 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         cam?.constraints?.append(lookAt)
     }
     
-    public func mouseExited(with event: NSEvent) {
-        print(5)
-    }
-        
+    public func mouseExited(with event: NSEvent) { }
+            
 }
