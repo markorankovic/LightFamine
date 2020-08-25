@@ -66,10 +66,10 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
 
     func presentScene(scene: GameScene) {
         view.window!.acceptsMouseMovedEvents = true
-        _sceneView.scene = _level
-        _level.returnToStart()
-        //_level.flipTheDarkAndLight()
         setUpCameraConstraints()
+        _sceneView.scene = _level
+        //_level.returnToStart()
+        //_level.flipTheDarkAndLight()
         NSCursor.hide()
     }
     
@@ -81,8 +81,14 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
         presentScene(scene: _level)
     }
 
+    var debugging = true
+    
     func enterLevel(level: Int) {
-        _level = GameScene(named: "art.scnassets/Levels/level\(level).scn")!
+        if debugging {
+            _level = GameScene(named: "art.scnassets/testLevel.scn")!
+        } else {
+            _level = GameScene(named: "art.scnassets/Levels/level\(level).scn")!
+        }
         _level.viewController = self
         presentScene(scene: _level)
         levelIndex = level

@@ -85,6 +85,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     func update(_ time: TimeInterval) {
+        print(cam!.constraints)
         if let v = player?.physicsBody?.velocity {
             let contacts = physicsWorld.contactTest(with: player!.physicsBody!, options: nil)
             if round(v.y) == 0 && contacts.count > 0 {
@@ -94,13 +95,12 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
             }
         }
         run()
-        if (playerOutOfBounds && !flipped) || (!playerOutOfBounds && flipped) {
+        let condition = (playerOutOfBounds && !flipped)
+        if condition {
             print("You lost!")
             returnToStart()
-        } else {
-            if playerHitExit {
-                viewController?.nextLevel()
-            }
+        } else if playerHitExit {
+            viewController?.nextLevel()
         }
     }
     
@@ -110,12 +110,9 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     var ySpeed: CGFloat = 0
         
     func run() {
-        //player?.runAction(.moveBy(x: xSpeed, y: 0, z: zSpeed, duration: 0.1))
         let angleBetween = atan2(player!.position.z - cam!.position.z, player!.position.x - cam!.position.x)
-        //let dist = hypot(player!.position.z - cam!.position.z, player!.position.x - cam!.position.x)
-        //let sinRatio = (player!.position.z - cam!.position.z) / dist
-        //let cosRatio = (player!.position.x - cam!.position.x) / dist
         var a: CGFloat = 0
+        
         for key in movingKeys.filter({ $0.holding }) {
             switch key.direction {
             case .down: a = 4 * CGFloat.pi/2; speed = -0.1
@@ -125,7 +122,6 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
             }
             player?.runAction(.move(by: .init(speed * cos(angleBetween + a), 0, speed * sin(angleBetween + a)), duration: 0.1))
         }
-        //player?.physicsBody?.applyForce(.init(xSpeed, ySpeed, zSpeed), asImpulse: true)
     }
     
     var alreadyJumped = false
@@ -135,9 +131,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
             player?.runAction(.moveBy(x: 0, y: 1, z: 0, duration: 0.1))
         }
     }
-    
-    var dir: Direction = .up
-    
+        
     class MovingKey {
         let key: String
         var holding: Bool = false
