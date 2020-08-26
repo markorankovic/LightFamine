@@ -81,7 +81,7 @@ public class GameViewController: NSViewController, SCNSceneRendererDelegate {
         presentScene(scene: _level)
     }
 
-    var debugging = true
+    var debugging = false
     
     func enterLevel(level: Int) {
         if debugging {

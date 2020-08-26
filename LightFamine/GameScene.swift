@@ -85,7 +85,6 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     func update(_ time: TimeInterval) {
-        print(cam!.constraints)
         if let v = player?.physicsBody?.velocity {
             let contacts = physicsWorld.contactTest(with: player!.physicsBody!, options: nil)
             if round(v.y) == 0 && contacts.count > 0 {
@@ -104,34 +103,33 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         }
     }
     
-    var speed: CGFloat = 0.1
-    var zSpeed: CGFloat = 0
-    var xSpeed: CGFloat = 0
-    var ySpeed: CGFloat = 0
+    var speed: CGFloat = 0
         
     func run() {
         let angleBetween = atan2(player!.position.z - cam!.position.z, player!.position.x - cam!.position.x)
         var a: CGFloat = 0
-        
         for key in movingKeys.filter({ $0.holding }) {
             switch key.direction {
-            case .down: a = 4 * CGFloat.pi/2; speed = -0.1
-            case .left: a = CGFloat.pi/2; speed = -0.1
-            case .right: a = CGFloat.pi/2; speed = 0.1
-            default: a = 0; speed = 0.1
+            case .down: a = 4 * CGFloat.pi/2; speed = -constantSpeed
+            case .left: a = CGFloat.pi/2; speed = -constantSpeed
+            case .right: a = CGFloat.pi/2; speed = constantSpeed
+            default: a = 0; speed = constantSpeed
             }
             player?.runAction(.move(by: .init(speed * cos(angleBetween + a), 0, speed * sin(angleBetween + a)), duration: 0.1))
         }
+        player?.runAction(.move(by: .init(), duration: 0.1))
     }
+    
+    var dir: Direction = .up
     
     var alreadyJumped = false
     
     func jump() {
         if !alreadyJumped {
-            player?.runAction(.moveBy(x: 0, y: 1, z: 0, duration: 0.1))
+            player?.runAction(.moveBy(x: 0, y: 2, z: 0, duration: 0.1))
         }
     }
-        
+    
     class MovingKey {
         let key: String
         var holding: Bool = false
@@ -152,9 +150,13 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     let movingKeys = [MovingKey(key: "W", direction: Direction.up), MovingKey(key: "A", direction: Direction.left), MovingKey(key: "S", direction: Direction.down), MovingKey(key: "D", direction: Direction.right)]
+        
+    var constantSpeed: CGFloat = 0.1
     
     public func keyDown(with event: NSEvent) {
         switch event.keyCode {
+        case 33: constantSpeed += 0.02
+        case 30: constantSpeed -= 0.02
         case 13: movingKeys.filter { $0.key == "W" }.first?.press()
         case 1: movingKeys.filter { $0.key == "S" }.first?.press()
         case 0: movingKeys.filter { $0.key == "A" }.first?.press()
@@ -163,7 +165,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         default: break
         }
     }
-    
+
     public func keyUp(with event: NSEvent) {
         switch event.keyCode {
         case 13: movingKeys.filter { $0.key == "W" }.first?.release()
