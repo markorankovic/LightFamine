@@ -72,16 +72,40 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         return spotLightsPlayerFallsUnder.count == 0
     }
     
+    var oppositeSwitch: SCNNode? {
+        rootNode.childNode(withName: "opposite-switch", recursively: true)
+    }
+    
     func flipTheDarkAndLight() {
         if !flipped {
+            lightingEnvironment.intensity = 10
+            for light in spotLights {
+                light.light?.intensity = -1000
+            }
             flipped = true
+        } else {
+            lightingEnvironment.intensity = 0
+            for light in spotLights {
+                light.light?.intensity = 100
+            }
+            flipped = false
         }
     }
     
     var flipped = false
     
+    func evaluateOpposite() {
+        if let switchNode = oppositeSwitch?.childNode(withName: "switch", recursively: true) {
+            let contacts = physicsWorld.contactTest(with: switchNode.physicsBody!, options: nil)
+            if contacts.count > 0 {
+                flipTheDarkAndLight()
+            }
+        }
+    }
+    
     func returnToStart() {
         player?.position = start?.position ?? .init()
+        flipTheDarkAndLight()
     }
     
     func update(_ time: TimeInterval) {
@@ -94,17 +118,20 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
             }
         }
         run()
-        let condition = (playerOutOfBounds && !flipped)
+        let condition = (playerOutOfBounds && !flipped) || (!playerOutOfBounds && flipped)
+        print(!playerOutOfBounds)
+        print(flipped)
         if condition {
             print("You lost!")
             returnToStart()
         } else if playerHitExit {
             viewController?.nextLevel()
         }
+        evaluateOpposite()
     }
     
     var speed: CGFloat = 0
-        
+    
     func run() {
         let angleBetween = atan2(player!.position.z - cam!.position.z, player!.position.x - cam!.position.x)
         var a: CGFloat = 0
@@ -119,9 +146,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         }
         player?.runAction(.move(by: .init(), duration: 0.1))
     }
-    
-    var dir: Direction = .up
-    
+        
     var alreadyJumped = false
     
     func jump() {

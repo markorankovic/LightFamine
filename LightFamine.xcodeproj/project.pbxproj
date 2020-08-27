@@ -10,9 +10,11 @@
 		AD0F2CAE24EBF2A300B4B79E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0F2CAD24EBF2A300B4B79E /* MainViewController.swift */; };
 		AD75741424E950FD0064FCA6 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD75741324E950FD0064FCA6 /* GameScene.swift */; };
 		ADA23E3E24EDB3EA0039FD57 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA23E3D24EDB3EA0039FD57 /* GameView.swift */; };
+		ADA2B59524F7DB6F00E2C1BB /* FlipCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2B59424F7DB6F00E2C1BB /* FlipCountdown.swift */; };
 		ADC397A224EBD37B000E0D6E /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC397A124EBD37B000E0D6E /* MainMenuViewController.swift */; };
 		ADC397A424EBDD34000E0D6E /* LevelSelectionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC397A324EBDD33000E0D6E /* LevelSelectionScene.swift */; };
 		ADC397A624EBDE4E000E0D6E /* LevelSelection.sks in Resources */ = {isa = PBXBuildFile; fileRef = ADC397A524EBDE4E000E0D6E /* LevelSelection.sks */; };
+		ADC954CA24F6C69C007A8A3B /* FlipCountdown.sks in Resources */ = {isa = PBXBuildFile; fileRef = ADC954C924F6C69C007A8A3B /* FlipCountdown.sks */; };
 		ADDB1BB324E8420D004B79D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDB1BB224E8420D004B79D1 /* AppDelegate.swift */; };
 		ADDB1BB524E8420D004B79D1 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDB1BB424E8420D004B79D1 /* GameViewController.swift */; };
 		ADDB1BB924E8420E004B79D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADDB1BB824E8420E004B79D1 /* Assets.xcassets */; };
@@ -43,9 +45,11 @@
 		AD0F2CAD24EBF2A300B4B79E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		AD75741324E950FD0064FCA6 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		ADA23E3D24EDB3EA0039FD57 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		ADA2B59424F7DB6F00E2C1BB /* FlipCountdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipCountdown.swift; sourceTree = "<group>"; };
 		ADC397A124EBD37B000E0D6E /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		ADC397A324EBDD33000E0D6E /* LevelSelectionScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectionScene.swift; sourceTree = "<group>"; };
 		ADC397A524EBDE4E000E0D6E /* LevelSelection.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelSelection.sks; sourceTree = "<group>"; };
+		ADC954C924F6C69C007A8A3B /* FlipCountdown.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FlipCountdown.sks; sourceTree = "<group>"; };
 		ADDB1BAF24E8420D004B79D1 /* LightFamine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightFamine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADDB1BB224E8420D004B79D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADDB1BB424E8420D004B79D1 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +91,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ADC954C824F6C67B007A8A3B /* FlipCountdown */ = {
+			isa = PBXGroup;
+			children = (
+				ADC954C924F6C69C007A8A3B /* FlipCountdown.sks */,
+				ADA2B59424F7DB6F00E2C1BB /* FlipCountdown.swift */,
+			);
+			path = FlipCountdown;
+			sourceTree = "<group>";
+		};
 		ADDB1BA624E8420D004B79D1 = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +123,7 @@
 		ADDB1BB124E8420D004B79D1 /* LightFamine */ = {
 			isa = PBXGroup;
 			children = (
+				ADC954C824F6C67B007A8A3B /* FlipCountdown */,
 				ADDB1BB224E8420D004B79D1 /* AppDelegate.swift */,
 				ADDB1BB424E8420D004B79D1 /* GameViewController.swift */,
 				ADC397A124EBD37B000E0D6E /* MainMenuViewController.swift */,
@@ -251,6 +265,7 @@
 				ADDB1BBC24E8420E004B79D1 /* Main.storyboard in Resources */,
 				ADDB1BE724E84A94004B79D1 /* art.scnassets in Resources */,
 				ADDB1BB924E8420E004B79D1 /* Assets.xcassets in Resources */,
+				ADC954CA24F6C69C007A8A3B /* FlipCountdown.sks in Resources */,
 				ADC397A624EBDE4E000E0D6E /* LevelSelection.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,6 +293,7 @@
 			files = (
 				ADC397A224EBD37B000E0D6E /* MainMenuViewController.swift in Sources */,
 				AD75741424E950FD0064FCA6 /* GameScene.swift in Sources */,
+				ADA2B59524F7DB6F00E2C1BB /* FlipCountdown.swift in Sources */,
 				ADC397A424EBDD34000E0D6E /* LevelSelectionScene.swift in Sources */,
 				AD0F2CAE24EBF2A300B4B79E /* MainViewController.swift in Sources */,
 				ADDB1BB524E8420D004B79D1 /* GameViewController.swift in Sources */,
