@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AD0F2CAE24EBF2A300B4B79E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0F2CAD24EBF2A300B4B79E /* MainViewController.swift */; };
+		AD4CD7C924F9340B00790389 /* FlipCountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4CD7C824F9340B00790389 /* FlipCountdownView.swift */; };
 		AD75741424E950FD0064FCA6 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD75741324E950FD0064FCA6 /* GameScene.swift */; };
 		ADA23E3E24EDB3EA0039FD57 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA23E3D24EDB3EA0039FD57 /* GameView.swift */; };
 		ADA2B59524F7DB6F00E2C1BB /* FlipCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA2B59424F7DB6F00E2C1BB /* FlipCountdown.swift */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		AD0F2CAD24EBF2A300B4B79E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		AD4CD7C824F9340B00790389 /* FlipCountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipCountdownView.swift; sourceTree = "<group>"; };
 		AD75741324E950FD0064FCA6 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		ADA23E3D24EDB3EA0039FD57 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		ADA2B59424F7DB6F00E2C1BB /* FlipCountdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipCountdown.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				ADC954C924F6C69C007A8A3B /* FlipCountdown.sks */,
 				ADA2B59424F7DB6F00E2C1BB /* FlipCountdown.swift */,
+				AD4CD7C824F9340B00790389 /* FlipCountdownView.swift */,
 			);
 			path = FlipCountdown;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				ADA2B59524F7DB6F00E2C1BB /* FlipCountdown.swift in Sources */,
 				ADC397A424EBDD34000E0D6E /* LevelSelectionScene.swift in Sources */,
 				AD0F2CAE24EBF2A300B4B79E /* MainViewController.swift in Sources */,
+				AD4CD7C924F9340B00790389 /* FlipCountdownView.swift in Sources */,
 				ADDB1BB524E8420D004B79D1 /* GameViewController.swift in Sources */,
 				ADDB1BB324E8420D004B79D1 /* AppDelegate.swift in Sources */,
 				ADA23E3E24EDB3EA0039FD57 /* GameView.swift in Sources */,

@@ -1,4 +1,5 @@
 import SceneKit
+import SpriteKit
 
 public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
@@ -76,6 +77,10 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         rootNode.childNode(withName: "opposite-switch", recursively: true)
     }
     
+    var screen: SCNNode? {
+        oppositeSwitch?.childNode(withName: "screen", recursively: true)
+    }
+    
     func flipTheDarkAndLight() {
         if !flipped {
             lightingEnvironment.intensity = 10
@@ -94,13 +99,27 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
     var flipped = false
     
+    var buttonPressed = false
+    
     func evaluateOpposite() {
+        guard !buttonPressed else {
+            return
+        }
         if let switchNode = oppositeSwitch?.childNode(withName: "switch", recursively: true) {
             let contacts = physicsWorld.contactTest(with: switchNode.physicsBody!, options: nil)
             if contacts.count > 0 {
-                flipTheDarkAndLight()
+                buttonPressed = true
+                activateCountdown()
             }
         }
+    }
+    
+    func activateCountdown() {
+        let vc = NSViewController()
+        vc.view = FlipCountdownView()
+        viewController?.parent?.view.addSubview(vc.view)
+        (vc.view as? FlipCountdownView)?.gameScene = self
+        (vc.view as? FlipCountdownView)?.presentScene()
     }
     
     func returnToStart() {
@@ -119,8 +138,6 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         }
         run()
         let condition = (playerOutOfBounds && !flipped) || (!playerOutOfBounds && flipped)
-        print(!playerOutOfBounds)
-        print(flipped)
         if condition {
             print("You lost!")
             returnToStart()
@@ -142,6 +159,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
             case .right: a = CGFloat.pi/2; speed = constantSpeed
             default: a = 0; speed = constantSpeed
             }
+            //player?.physicsBody!.applyForce(.init(speed * cos(angleBetween + a), 0, speed * sin(angleBetween + a)), asImpulse: true)
             player?.runAction(.move(by: .init(speed * cos(angleBetween + a), 0, speed * sin(angleBetween + a)), duration: 0.1))
         }
         player?.runAction(.move(by: .init(), duration: 0.1))
@@ -152,6 +170,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     func jump() {
         if !alreadyJumped {
             player?.runAction(.moveBy(x: 0, y: 2, z: 0, duration: 0.1))
+            //player?.physicsBody?.applyForce(.init(0, 1.5, 0), asImpulse: true)
         }
     }
     
@@ -176,7 +195,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     
     let movingKeys = [MovingKey(key: "W", direction: Direction.up), MovingKey(key: "A", direction: Direction.left), MovingKey(key: "S", direction: Direction.down), MovingKey(key: "D", direction: Direction.right)]
         
-    var constantSpeed: CGFloat = 0.1
+    var constantSpeed: CGFloat = 0.15
     
     public func keyDown(with event: NSEvent) {
         switch event.keyCode {
