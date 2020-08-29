@@ -114,12 +114,44 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
         }
     }
     
+    func lightIsDark() {
+        lightingEnvironment.intensity = 10
+        for light in spotLights {
+            light.light?.intensity = -1000
+        }
+        flipped = true
+    }
+    
+    var teleport: SCNNode? {
+        rootNode.childNode(withName: "teleport", recursively: true)
+    }
+    
+    var teleportDest: SCNNode? {
+        rootNode.childNode(withName: "teleportDest", recursively: true)
+    }
+    
+    var teleported = false
+    
+    func checkForTeleportation() {
+        guard !teleported, let teleport = teleport else {
+            return
+        }
+        let contacts = physicsWorld.contactTest(with: teleport.physicsBody!, options: nil)
+        if contacts.count > 0 {
+            teleported = true
+            if let teleportDest = teleportDest {
+                player?.position = teleportDest.position
+                print("Teleported")
+                physicsWorld.gravity = .init(0, -0.1, 0)
+            }
+        }
+    }
+    
     func activateCountdown() {
-        let vc = NSViewController()
-        vc.view = FlipCountdownView()
-        viewController?.parent?.view.addSubview(vc.view)
-        (vc.view as? FlipCountdownView)?.gameScene = self
-        (vc.view as? FlipCountdownView)?.presentScene()
+        let view = FlipCountdownView()
+        viewController?.parent?.view.addSubview(view)
+        (view as FlipCountdownView).gameScene = self
+        (view as FlipCountdownView).presentScene()
     }
     
     func returnToStart() {
@@ -128,8 +160,9 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
     }
     
     func update(_ time: TimeInterval) {
+        print(player!.position)
+        let contacts = physicsWorld.contactTest(with: player!.physicsBody!, options: nil)
         if let v = player?.physicsBody?.velocity {
-            let contacts = physicsWorld.contactTest(with: player!.physicsBody!, options: nil)
             if round(v.y) == 0 && contacts.count > 0 {
                 alreadyJumped = false
             } else {
@@ -137,7 +170,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
             }
         }
         run()
-        let condition = (playerOutOfBounds && !flipped) || (!playerOutOfBounds && flipped)
+        let condition = (playerOutOfBounds && !flipped) || (!playerOutOfBounds && flipped && contacts.count > 0)
         if condition {
             print("You lost!")
             returnToStart()
@@ -145,6 +178,7 @@ public class GameScene: SCNScene, SCNPhysicsContactDelegate {
             viewController?.nextLevel()
         }
         evaluateOpposite()
+        checkForTeleportation()
     }
     
     var speed: CGFloat = 0

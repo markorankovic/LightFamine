@@ -33,7 +33,7 @@ public class FlipCountdown: SKScene {
         if countdownDone {
             gameScene?.screen?.geometry?.materials = []
             view?.presentScene(nil)
-            gameScene?.flipTheDarkAndLight()
+            gameScene?.lightIsDark()
         }
     }
     
